@@ -8,6 +8,11 @@ const port = 3000;
 
 const route = require('./routes/index.js');
 
+
+//connect db
+const db = require('./config/db/index.js');
+//connect to Db
+db.connectDB();
 //HTTP logger
 // app.use(morgan('combined'));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,3 +40,5 @@ app.use(express.urlencoded({ extended: false })); // for parsing application/x-w
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
+
+
