@@ -1,7 +1,6 @@
-
 const express = require('express');
 const morgan = require('morgan');
-const {engine} = require('express-handlebars');
+const { engine } = require('express-handlebars');
 const path = require('path');
 
 const app = express();
@@ -11,24 +10,27 @@ const route = require('./routes/index.js');
 
 //HTTP logger
 // app.use(morgan('combined'));
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 //template engine
 
-    //config template engine
-app.engine('hbs', engine({
-    extname:'.hbs'
-}));
+//config template engine
+app.engine(
+    'hbs',
+    engine({
+        extname: '.hbs',
+    }),
+);
 
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname,'resources/views'));
+app.set('views',
+     path.join(__dirname, 
+        'resources/views'));
 
 //Route init
 route(app);
 
-app.use(express.json()) // for parsing application/json
-app.use(express.urlencoded({ extended: false })) // for parsing application/x-www-form-urlencoded
-
-
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
