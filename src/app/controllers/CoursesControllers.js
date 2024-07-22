@@ -23,11 +23,11 @@ class CoursesControllers {
     async   createItem(req, res,next) {
         const course = new Course(req.body);
         console.log(course);
-        await Course.create(course)
-        .then(
-            () => {res.redirect(`/course/${course.slug}`);} 
-        )
-        .catch(next);;
+        course.save()
+        .then(()=> {
+        res.redirect(`/course/${course.slug}`);
+       })
+       .catch(next);
       
         
     }
