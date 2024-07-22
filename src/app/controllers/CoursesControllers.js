@@ -49,6 +49,19 @@ class CoursesControllers {
        })
        .catch(next);
     }
+    //[DELETE] /courses/:id
+    async deleteItem(req, res, next) {
+        console.log(req.params.id);
+        await Course.findByIdAndDelete(req.params.id)
+       .then(()=> {
+            res.redirect('back');
+       })
+       .catch(next);
+    }
+    //[GET] /search
+    search(req, res) {
+        res.render('search');
+    }
 
 
 }

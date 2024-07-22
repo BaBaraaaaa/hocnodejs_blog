@@ -9,7 +9,7 @@ class CoursesControllers {
     .then(courses => {  
         // res.send(courses);
         res.render('me/stored-courses',{courses: mutipleMongooseToObject(courses)});
-        // res.render('home',{courses: mutipleMongooseToObject(courses)});
+      
     })
     .catch(next);
    

@@ -16,7 +16,8 @@
       <td>{{this.name}}</td>
 
       <td>
-        <a href="/courses/{{this._id}}">Xóa</a>
+        <a data-bs-toggle="modal" data-bs-target="#delete-course-modal" 
+        data-id="{{this._id}}" href="">Xóa</a>
         <a href="/courses/{{this._id}}/edit">Sửa</a>
         
       </td>
@@ -26,3 +27,49 @@
     
   </tbody>
 </table>
+{{!-- confirm delete --}}
+<!-- Modal -->
+<div class="modal fade" id="delete-course-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+ aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Xác nhận</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn xóa không
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-confirm-delete" class="btn btn-primary">Vâng!</button>
+
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Delete hidden form  --}}
+      <form name="delete-course-form" action="/courses/{{course._id}}?_method=DELETE" method="POST" hidden></form>
+
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
+    let courseId ;
+    let deleteForm =document.forms['delete-course-form'];
+    {{!-- let btnDeleteCourse = document.getElementById('btn-delete-course') --}}
+    //When dialog confirm clicked
+   var exampleModal = document.getElementById('delete-course-modal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+     var button = event.relatedTarget
+   courseId = button.getAttribute('data-id')
+    console.log(courseId);
+  });
+    var btnDelete = document.getElementById('btn-confirm-delete');
+    btnDelete.addEventListener('click', function(){
+      // send request to server to delete course with id = id
+      deleteForm.action = '/courses/' + courseId + '?_method=DELETE';
+      deleteForm.submit();
+    })
+  })
+
+</script>
