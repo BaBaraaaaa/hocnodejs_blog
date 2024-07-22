@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const { engine } = require('express-handlebars');
 const path = require('path');
-const {slug} = require('mongoose-slug-generator');
+
 const app = express();
 const port = 3000;
 
