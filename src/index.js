@@ -1,6 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const { engine } = require('express-handlebars');
+//middlewares sử dụng để đọc các http request PUT và DELETE
+const methodOverride = require('method-override');
 const path = require('path');
 
 const app = express();
@@ -18,13 +20,23 @@ db.connectDB();
 app.use(express.static(path.join(__dirname, 'public')));
 //template engine
 
+// override with POST having ?_method=DELETE
+app.use(methodOverride('_method'));
+
 //config template engine
 app.engine(
     'hbs',
     engine({
         extname: '.hbs',
+        helpers:{
+        // register new function helpers
+            inc(i) {return i + 1},
+        }
     }),
+    
 );
+
+
 
 app.set('view engine', 'hbs');
 app.set('views',
@@ -32,6 +44,7 @@ app.set('views',
         'resources/views'));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
 
 //Route init
 route(app);

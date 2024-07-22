@@ -1,0 +1,28 @@
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Tên khóa học</th>
+      <th scope="col">Mô tả</th>
+      <th scope="col">Thao tác</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each courses}}
+    <tr>
+      <th scope="row">{{ inc @index  }}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.description}}</td>
+      <td>{{this.name}}</td>
+
+      <td>
+        <a href="/courses/{{this._id}}">Xóa</a>
+        <a href="/courses/{{this._id}}/edit">Sửa</a>
+        
+      </td>
+    
+    </tr>
+    {{/each}}
+    
+  </tbody>
+</table>
