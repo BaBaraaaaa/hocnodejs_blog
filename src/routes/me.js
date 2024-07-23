@@ -8,5 +8,6 @@ const meController = require('../app/controllers/MeControllers');
 
 
 router.get('/stored/courses', meController.show);
+router.get('/stored/trash/courses', meController.trash);
 
 module.exports = router;

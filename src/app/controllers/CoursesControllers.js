@@ -52,12 +52,31 @@ class CoursesControllers {
     //[DELETE] /courses/:id
     async deleteItem(req, res, next) {
         console.log(req.params.id);
-        await Course.findByIdAndDelete(req.params.id)
+        await Course.deleteById(req.params.id)
        .then(()=> {
             res.redirect('back');
        })
        .catch(next);
     }
+      //[PUT]/courses/:id/restore
+     async restoreItem(req, res, next) {
+        const id = req.params.id;
+       await Course.restore({_id: id  })
+        .then(()=> {
+            res.redirect('back');
+       }).
+       catch(next);
+    }
+      //[PUT]/courses/:id/delete-bulk
+       async  deleteBulk(req, res, next) {
+        const id = req.params.id;
+            await Course.deleteOne({_id:id})
+            .then(()=> {
+                res.redirect('back');
+            })
+        .catch(next);
+      }
+
     //[GET] /search
     search(req, res) {
         res.render('search');

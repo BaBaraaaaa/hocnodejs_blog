@@ -1,0 +1,118 @@
+<h1>thùng rác</h1>
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Tên khóa học</th>
+      <th scope="col">Mô tả</th>
+      <th scope="col">Thao tác</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each courses}}
+    <tr>
+      <th scope="row">{{ inc @index  }}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.description}}</td>
+      <td>{{this.name}}</td>
+      <td>
+        <a data-bs-toggle="modal" data-bs-target="#restore-course-modal" 
+        data-id="{{this._id}}" href="">Khôi phục</a> ||
+        <a data-bs-target="#delete-bulk-course-modal"   data-bs-toggle="modal"
+        data-id="{{this._id}}" href="">Xóa Vĩnh Viễn</a>
+        
+      </td>
+    
+    </tr>
+    {{else }}
+    <tr class="center">
+         <td> KHông có khóa học nào bị xóa</td>
+    </tr>
+    {{/each}}
+    
+  </tbody>
+</table>
+{{!-- confirm restore --}}
+<!-- Modal -->
+<div class="modal fade" id="restore-course-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+ aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Xác nhận</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       Bạn muốn khôi phục khóa học này?
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-confirm-restore" class="btn btn-primary">Vâng!</button>
+
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- confirm bulk delete --}}
+<!-- Modal -->
+<div class="modal fade" id="delete-bulk-course-modal" tabindex="-1" aria-labelledby="exampleModalLabel1"
+ aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Xác nhận</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       Khóa học này sẽ bị khóa vĩnh viễn! Bạn có chắc không?
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-confirm-delete-bulk" class="btn btn-primary">Vâng!</button>
+
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{{!-- Restore hidden form  --}}
+      <form name="restore-course-form" action="/courses/{{course._id}}/restore?_method=PUT" method="POST" hidden></form>
+{{!-- Delete forever hidden form  --}}
+      <form name="delete-bulk-course-form" action="/courses/{{course._id}}/delete-bulk?_method=DELETE" method="POST" hidden></form>
+
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
+    let courseId ;
+    let restoreForm =document.forms['restore-course-form'];
+    let deleteBulkForm = document.forms['delete-bulk-course-form'];
+    //When dialog confirm clicked
+   var exampleModal = document.getElementById('restore-course-modal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+     var button = event.relatedTarget
+     courseId = button.getAttribute('data-id')
+    {{!-- console.log(courseId); --}}
+  });
+    var btnRestore = document.getElementById('btn-confirm-restore');
+    btnRestore.addEventListener('click', function(){
+      // send request to server to delete course with id = id
+      restoreForm.action = '/courses/' + courseId + '/restore?_method=PUT';
+      restoreForm.submit();
+    });
+
+    //when dialog confirm delete-bulk-course-modal clicked
+    var deleteBulkCourseModal = document.getElementById('delete-bulk-course-modal')
+    deleteBulkCourseModal.addEventListener('show.bs.modal', function (event) {
+     var button = event.relatedTarget
+      courseId = button.getAttribute('data-id');
+    });
+    var btnDeleteBulk = document.getElementById('btn-confirm-delete-bulk');
+    btnDeleteBulk.addEventListener('click', function(){
+      // send request to server to delete course with id = id
+      deleteBulkForm.action = '/courses/' + courseId + '/delete-bulk?_method=DELETE';
+      deleteBulkForm.submit();
+    });
+  })
+
+</script>
