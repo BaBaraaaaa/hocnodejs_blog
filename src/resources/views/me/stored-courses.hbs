@@ -1,8 +1,26 @@
 <h6><a href="/me/stored/trash/courses">Thùng rác</a> ( {{coursesCount}} )</h6>
+<div class="mt-4 d-flex flex-row bd-highlight mb-3">
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="check-box-all">
+  <label class="form-check-label" for="check-box-all">
+    Chọn tất cả
+  </label>
+</div>
+<div class="input-group mb-3  ">
+  <select class="form-select checkbox-select-all-option" id="">
+    <option selected>Choose...</option>
+    <option value="delete">One</option>
+  </select>
+<button class="btn btn-primary btn-sm" disabled>Thực hiện</button>
+
+</div>
+</div>
 <table class="table table-striped table-hover">
   <thead>
     <tr>
+      
       <th scope="col">#</th>
+      <th scope="col">STT</th>
       <th scope="col">Tên khóa học</th>
       <th scope="col">Mô tả</th>
       <th scope="col">Thao tác</th>
@@ -10,7 +28,12 @@
   </thead>
   <tbody>
     {{#each courses}}
-    <tr>
+    <tr >
+       <th>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="courseIds[]" value="{{this._iid}}"  >
+        </div>
+      </th>
       <th scope="row">{{ inc @index  }}</th>
       <td>{{this.name}}</td>
       <td>{{this.description}}</td>
@@ -57,9 +80,14 @@
 
 <script>
   document.addEventListener('DOMContentLoaded',function(){
+    
     let courseId ;
     let deleteForm =document.forms['delete-course-form'];
-    {{!-- let btnDeleteCourse = document.getElementById('btn-delete-course') --}}
+    //Jquery 
+    var checkboxall = $('#check-box-all');
+    var checkboxes = $('input[name="courseIds[]"]');
+    
+    console.log(checkboxes);
     //When dialog confirm clicked
    var exampleModal = document.getElementById('delete-course-modal')
       exampleModal.addEventListener('show.bs.modal', function (event) {
@@ -72,7 +100,48 @@
         // send request to server to delete course with id = id
         deleteForm.action = '/courses/' + courseId + '?_method=DELETE';
         deleteForm.submit();
-      })
+      });
+
+      //Checkbox all clicked
+      checkboxall.change(function(){
+        //https://api.jquery.com/prop/#prop-propertyName
+        var ischeckAll = $(this).prop('checked');
+        if(ischeckAll)
+        {
+          checkboxes.prop('checked',true);
+          checkboxall.prop('indeterminate', false);
+        }else
+        {
+          checkboxes.prop('checked',false);
+
+        }
+       
+      });
+       //when checkbox item clicked
+        checkboxes.change(function(){
+          var isCheckAll = checkboxes.length === $('input[name="courseIds[]"]:checked').length;  
+          if(isCheckAll)
+          {
+          checkboxall.prop('checked',isCheckAll);
+          checkboxall.prop('indeterminate',false);
+          }
+          else
+          {
+           var isAnyChecked = $('input[name="courseIds[]"]:checked').length > 0;
+            if (isAnyChecked) {
+              checkboxall.prop('indeterminate', true);
+              checkboxall.prop('checked', false);
+            } else {
+              checkboxall.prop('checked', false);
+              checkboxall.prop('indeterminate', false);
+            }
+          }
+        })
+
+
+
+
+
   })
 
 </script>
