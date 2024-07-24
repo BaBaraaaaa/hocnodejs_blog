@@ -67,8 +67,8 @@ class CoursesControllers {
        }).
        catch(next);
     }
-      //[PUT]/courses/:id/delete-bulk
-    async  deleteBulk(req, res, next) {
+      //[PUT]/courses/:id/deleteForever
+    async  deleteOne(req, res, next) {
     const id = req.params.id;
         await Course.deleteOne({_id:id})
         .then(()=> {
@@ -76,7 +76,22 @@ class CoursesControllers {
         })
     .catch(next);
     }
-
+    //[DELETE]/courses/delete-bulk
+    async deleteBulk(req, res, next) {
+        switch(req.body.action) {
+        case 'delete':
+         await   Course.delete({_id: {$in: req.body.courseIds}})
+            .then(()=> {
+                res.redirect('back');
+            })
+            .catch(next);
+             break;
+        default:
+            res.json({success: false, message: 'Invalid action'});
+            break;
+        }
+        
+    }
     //[GET] /search
     search(req, res) {
         res.render('search');

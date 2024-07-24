@@ -14,6 +14,7 @@ router.get('/create', courseController.create);
 router.delete('/:id', courseController.deleteItem);
 router.get('/:id/edit', courseController.editItem);
 router.get('/:slug', courseController.show);
-router.delete('/:id/delete-bulk',courseController.deleteBulk);
+router.delete('/:id/delete-bulk',courseController.deleteOne);
+router.post('/delete-bulk',courseController.deleteBulk);
 
 module.exports = router;

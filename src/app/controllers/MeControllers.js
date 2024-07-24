@@ -7,7 +7,7 @@ class CoursesControllers {
    async show(req, res,next) {
     Promise.all([Course.countDocumentsWithDeleted({ deleted: true }),Course.find()])
     .then(([count, courses]) => {
-        console.log('Total courses count: ', count);
+        console.log('Total courses deleted count: ', count);
         res.render('me/stored-courses',{coursesCount: count, courses: mutipleMongooseToObject(courses)});
     })
     //you can use Promise.all([]) to wait for multiple promises to resolve before proceeding.
