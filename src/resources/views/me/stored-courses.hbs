@@ -1,3 +1,4 @@
+<h6><a href="/me/stored/trash/courses">Thùng rác</a> ( {{coursesCount}} )</h6>
 <table class="table table-striped table-hover">
   <thead>
     <tr>
@@ -19,9 +20,11 @@
         <a data-bs-toggle="modal" data-bs-target="#delete-course-modal" 
         data-id="{{this._id}}" href="">Xóa</a>
         <a href="/courses/{{this._id}}/edit">Sửa</a>
-        
       </td>
-    
+    </tr>
+     {{else }}
+    <tr class="center">
+         <td class="text-center" colspan="4"> Bạn chưa tạo khóa học nào. <a href="/courses/create">Tạo khóa học ngay</a></td>
     </tr>
     {{/each}}
     
@@ -59,17 +62,17 @@
     {{!-- let btnDeleteCourse = document.getElementById('btn-delete-course') --}}
     //When dialog confirm clicked
    var exampleModal = document.getElementById('delete-course-modal')
-    exampleModal.addEventListener('show.bs.modal', function (event) {
-     var button = event.relatedTarget
-   courseId = button.getAttribute('data-id')
-    console.log(courseId);
-  });
+      exampleModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget
+    courseId = button.getAttribute('data-id')
+      console.log(courseId);
+    });
     var btnDelete = document.getElementById('btn-confirm-delete');
-    btnDelete.addEventListener('click', function(){
-      // send request to server to delete course with id = id
-      deleteForm.action = '/courses/' + courseId + '?_method=DELETE';
-      deleteForm.submit();
-    })
+      btnDelete.addEventListener('click', function(){
+        // send request to server to delete course with id = id
+        deleteForm.action = '/courses/' + courseId + '?_method=DELETE';
+        deleteForm.submit();
+      })
   })
 
 </script>

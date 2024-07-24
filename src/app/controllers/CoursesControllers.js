@@ -20,7 +20,7 @@ class CoursesControllers {
      
     }
      //[POST]/course/create
-    async   createItem(req, res,next) {
+    async createItem(req, res,next) {
         const course = new Course(req.body);
         console.log(course);
         course.save()
@@ -68,14 +68,14 @@ class CoursesControllers {
        catch(next);
     }
       //[PUT]/courses/:id/delete-bulk
-       async  deleteBulk(req, res, next) {
-        const id = req.params.id;
-            await Course.deleteOne({_id:id})
-            .then(()=> {
-                res.redirect('back');
-            })
-        .catch(next);
-      }
+    async  deleteBulk(req, res, next) {
+    const id = req.params.id;
+        await Course.deleteOne({_id:id})
+        .then(()=> {
+            res.redirect('back');
+        })
+    .catch(next);
+    }
 
     //[GET] /search
     search(req, res) {
