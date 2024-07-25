@@ -80,6 +80,7 @@ class CoursesControllers {
     async deleteBulk(req, res, next) {
         switch(req.body.action) {
         case 'delete':
+            https://websitehcm.com/toan-tu-in-trong-mongodb/
          await   Course.delete({_id: {$in: req.body.courseIds}})
             .then(()=> {
                 res.redirect('back');

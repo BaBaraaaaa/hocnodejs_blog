@@ -1,5 +1,5 @@
 <form name="containerForm" action="/courses/delete-one" method="POST">
-  <h6><a href="/me/stored/trash/courses">Thùng rác</a> ( {{coursesCount}} )</h6>
+  <h6><a href="/me/stored/trash/courses"> <i class="bi bi-trash"> ( {{coursesCount}} )</i></a> </h6>
   <div class="mt-4 d-flex flex-row bd-highlight mb-3">
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="check-box-all">
@@ -23,7 +23,9 @@
 
         <th scope="col">#</th>
         <th scope="col">STT</th>
-        <th scope="col">Tên khóa học</th>
+        <th scope="col">Tên khóa học <i class="bi bi-arrows-vertical"></i>
+            <i class="bi bi-arrow-up-short"></i>
+        </th>
         <th scope="col">Mô tả</th>
         <th scope="col">Thao tác</th>
       </tr>
