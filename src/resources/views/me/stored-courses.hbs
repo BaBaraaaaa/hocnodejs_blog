@@ -1,4 +1,4 @@
-<form name="containerForm" action="/courses/delete-bulk" method="POST">
+<form name="containerForm" action="/courses/delete-one" method="POST">
   <h6><a href="/me/stored/trash/courses">Thùng rác</a> ( {{coursesCount}} )</h6>
   <div class="mt-4 d-flex flex-row bd-highlight mb-3">
     <div class="form-check">
@@ -12,8 +12,8 @@
         <option value="" selected>Choose...</option>
         <option value="delete">Xóa</option>
       </select>
-      <button class="btn btn-primary btn-sm checkbox-submit-btn disabled"
-      data-bs-toggle="modal" data-bs-target="#delete-muti-course-modal">Thực hiện</button>
+      <button class="btn btn-primary btn-sm checkbox-submit-btn disabled" data-bs-toggle="modal"
+        data-bs-target="#delete-muti-course-modal">Thực hiện</button>
 
     </div>
   </div>
@@ -76,25 +76,6 @@
     </div>
   </div>
 </div>
-<!-- Modal Muti  -->
-<div class="modal fade" id="delete-muti-course-modal" tabindex="-1" aria-labelledby="delete-muti-course-modal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="delete-muti-course-modal">Xác nhận</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Bạn có muốn xóa không
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="btn-confirm-delete" class="btn btn-primary">Vâng!</button>
-
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không!</button>
-      </div>
-    </div>
-  </div>
-</div>
 {{!-- Delete hidden form --}}
 <form name="delete-course-form" action="/courses/{{course._id}}?_method=DELETE" method="POST" hidden></form>
 
@@ -107,17 +88,7 @@
     var checkboxall = $('#check-box-all');
     var checkboxes = $('input[name="courseIds[]"]');
     var checkboxSubmitbutton = $('.checkbox-submit-btn');
-    var containerForm = document.forms['containerForm'];
-    var valueMethodAction = $('.checkbox-select-all-option');
-    var deleteMutiForm = document.getElementById('delete-muti-course-modal');
-    deleteMutiForm.addEventListener('show.bs.modal',function(e)
-    {
-      console.log(123);
-    })
-    //choose option method before  submit
-    valueMethodAction.change(function () {
-      return $(this).val();
-    })
+
 
     //When dialog confirm clicked
     var exampleModal = document.getElementById('delete-course-modal')
@@ -168,26 +139,28 @@
       }
     });
     //Check all submit btn clicked
-    {{!-- checkboxSubmitbutton.on('submit', function (e) {
+    checkboxSubmitbutton.on('submit', function (e) {
       var isSubmittable = $(this).hasClass('disabled');
       if (!isSubmittable) {
         //e.preventDefault is ngăn không cho web submit hành vi mặc định
         e.preventDefault()
       }
 
-    }) --}}
+
+    })
     //re-render checkboxSubmitBtn()
     function checkboxSubmitBtn() {
       var checkedCount = $('input[name="courseIds[]"]:checked').length;
       if (checkedCount > 0) {
         checkboxSubmitbutton.removeClass('disabled')
-        console.log(checkedCount);
+
       }
       else {
         checkboxSubmitbutton.addClass('disabled')
-        console.log(checkedCount);
+
       }
     }
   })
+
 
 </script>

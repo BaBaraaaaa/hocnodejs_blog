@@ -1,62 +1,87 @@
 <h1>thùng rác</h1>
+<form action="/courses/delete-restore-bulk" method="POST">
+  <div class="mt-4 d-flex flex-row bd-highlight mb-3">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="check-box-all">
+      <label class="form-check-label" for="check-box-all">
+        Chọn tất cả
+      </label>
+    </div>
+    <div class="input-group mb-3  ">
+      <select class="form-select checkbox-select-all-option" name="action" required>
+        <option value="" selected>Choose...</option>
+        <option value="delete">Xóa</option>
+        <option value="restore">Khôi phục</option>
+      </select>
+      <button class="btn btn-primary btn-sm checkbox-submit-btn disabled" data-bs-toggle="modal"
+        data-bs-target="#delete-muti-course-modal">Thực hiện</button>
 
-<table class="table table-striped table-hover">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Tên khóa học</th>
-      <th scope="col">Mô tả</th>
-      <th scope="col">Thao tác</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each courses}}
-    <tr>
-      <th scope="row">{{ inc @index  }}</th>
-      <td>{{this.name}}</td>
-      <td>{{this.description}}</td>
-      <td>{{this.name}}</td>
-      <td>
-        <a data-bs-toggle="modal" data-bs-target="#restore-course-modal" 
-        data-id="{{this._id}}" href="">Khôi phục</a> ||
-        <a data-bs-target="#delete-bulk-course-modal"   data-bs-toggle="modal"
-        data-id="{{this._id}}" href="">Xóa Vĩnh Viễn</a>
-      </td>
-    </tr>
-    {{else }}
-    <tr class="center">
-         <td class="text-center" colspan="4"> KHông có khóa học nào bị xóa</td>
-    </tr>
-    {{/each}}
-    
-  </tbody>
-</table>
-{{!-- confirm restore --}}
-<!-- Modal -->
-<div class="modal fade" id="restore-course-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
- aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Xác nhận</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-       Bạn muốn khôi phục khóa học này?
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="btn-confirm-restore" class="btn btn-primary">Vâng!</button>
+    </div>
+  </div>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th>STT</th>
+        <th scope="col">Tên khóa học</th>
+        <th scope="col">Mô tả</th>
+        <th scope="col">Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each courses}}
+      <tr>
+        <th>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="courseIds[]" value="{{this._id}}">
+          </div>
+        </th>
+        <th scope="row">{{ inc @index }}</th>
+        <td>{{this.name}}</td>
+        <td>{{this.description}}</td>
+        <td>{{this.name}}</td>
+        <td>
+          <a data-bs-toggle="modal" data-bs-target="#restore-course-modal" data-id="{{this._id}}" href="">Khôi phục</a>
+          ||
+          <a data-bs-target="#delete-bulk-course-modal" data-bs-toggle="modal" data-id="{{this._id}}" href="">Xóa Vĩnh
+            Viễn</a>
+        </td>
+      </tr>
+      {{else }}
+      <tr class="center">
+        <td class="text-center" colspan="5"> KHông có khóa học nào bị xóa</td>
+      </tr>
+      {{/each}}
 
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không!</button>
+    </tbody>
+  </table>
+  {{!-- confirm restore --}}
+  <!-- Modal -->
+  <div class="modal fade" id="restore-course-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Xác nhận</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Bạn muốn khôi phục khóa học này?
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="btn-confirm-restore" class="btn btn-primary">Vâng!</button>
+
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không!</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</form>
 
 {{!-- confirm bulk delete --}}
 <!-- Modal -->
 <div class="modal fade" id="delete-bulk-course-modal" tabindex="-1" aria-labelledby="exampleModalLabel1"
- aria-hidden="true">
+  aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -64,7 +89,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       Khóa học này sẽ bị khóa vĩnh viễn! Bạn có chắc không?
+        Khóa học này sẽ bị khóa vĩnh viễn! Bạn có chắc không?
       </div>
       <div class="modal-footer">
         <button type="button" id="btn-confirm-delete-bulk" class="btn btn-primary">Vâng!</button>
@@ -76,25 +101,32 @@
 </div>
 
 
-{{!-- Restore hidden form  --}}
-      <form name="restore-course-form" action="/courses/{{course._id}}/restore?_method=PUT" method="POST" hidden></form>
-{{!-- Delete forever hidden form  --}}
-      <form name="delete-bulk-course-form" action="/courses/{{course._id}}/delete-bulk?_method=DELETE" method="POST" hidden></form>
+{{!-- Restore hidden form --}}
+<form name="restore-course-form" action="/courses/{{course._id}}/restore?_method=PUT" method="POST" hidden></form>
+{{!-- Delete forever hidden form --}}
+<form name="delete-bulk-course-form" action="/courses/{{course._id}}/delete-bulk?_method=DELETE" method="POST" hidden>
+</form>
 
 <script>
-  document.addEventListener('DOMContentLoaded',function(){
-    let courseId ;
-    let restoreForm =document.forms['restore-course-form'];
+  document.addEventListener('DOMContentLoaded', function () {
+    let courseId;
+    let restoreForm = document.forms['restore-course-form'];
     let deleteBulkForm = document.forms['delete-bulk-course-form'];
+
+    //Jquery 
+    var checkboxall = $('#check-box-all');
+    var checkboxes = $('input[name="courseIds[]"]');
+    var checkboxSubmitbutton = $('.checkbox-submit-btn');
+
+
     //When dialog confirm clicked
-   var exampleModal = document.getElementById('restore-course-modal')
+    var exampleModal = document.getElementById('restore-course-modal')
     exampleModal.addEventListener('show.bs.modal', function (event) {
-     var button = event.relatedTarget
-     courseId = button.getAttribute('data-id')
-    {{!-- console.log(courseId); --}}
-  });
+      var button = event.relatedTarget
+      courseId = button.getAttribute('data-id')
+    });
     var btnRestore = document.getElementById('btn-confirm-restore');
-    btnRestore.addEventListener('click', function(){
+    btnRestore.addEventListener('click', function () {
       // send request to server to delete course with id = id
       restoreForm.action = '/courses/' + courseId + '/restore?_method=PUT';
       restoreForm.submit();
@@ -103,15 +135,71 @@
     //when dialog confirm delete-bulk-course-modal clicked
     var deleteBulkCourseModal = document.getElementById('delete-bulk-course-modal')
     deleteBulkCourseModal.addEventListener('show.bs.modal', function (event) {
-     var button = event.relatedTarget
+      var button = event.relatedTarget
       courseId = button.getAttribute('data-id');
     });
     var btnDeleteBulk = document.getElementById('btn-confirm-delete-bulk');
-    btnDeleteBulk.addEventListener('click', function(){
+    btnDeleteBulk.addEventListener('click', function () {
       // send request to server to delete course with id = id
       deleteBulkForm.action = '/courses/' + courseId + '/delete-bulk?_method=DELETE';
       deleteBulkForm.submit();
     });
+    //Checkbox all clicked
+    checkboxall.change(function () {
+      //https://api.jquery.com/prop/#prop-propertyName
+      var ischeckAll = $(this).prop('checked');
+      if (ischeckAll) {
+        checkboxes.prop('checked', true);
+        checkboxall.prop('indeterminate', false);
+        checkboxSubmitBtn()
+      } else {
+        checkboxes.prop('checked', false);
+        checkboxSubmitBtn()
+      }
+    });
+    //when checkbox item clicked
+    checkboxes.change(function () {
+      var isCheckAll = checkboxes.length === $('input[name="courseIds[]"]:checked').length;
+      if (isCheckAll) {
+        checkboxall.prop('checked', isCheckAll);
+        checkboxall.prop('indeterminate', false);
+        checkboxSubmitBtn()
+      }
+      else {
+        var isAnyChecked = $('input[name="courseIds[]"]:checked').length > 0;
+        if (isAnyChecked) {
+          checkboxall.prop('indeterminate', true);
+          checkboxall.prop('checked', false);
+          checkboxSubmitBtn()
+        } else {
+          checkboxall.prop('checked', false);
+          checkboxall.prop('indeterminate', false);
+          checkboxSubmitBtn()
+        }
+      }
+    });
+    //Check all submit btn clicked
+    checkboxSubmitbutton.on('submit', function (e) {
+      var isSubmittable = $(this).hasClass('disabled');
+      if (!isSubmittable) {
+        //e.preventDefault is ngăn không cho web submit hành vi mặc định
+        e.preventDefault()
+      }
+
+
+    })
+    //re-render checkboxSubmitBtn()
+    function checkboxSubmitBtn() {
+      var checkedCount = $('input[name="courseIds[]"]:checked').length;
+      if (checkedCount > 0) {
+        checkboxSubmitbutton.removeClass('disabled')
+
+      }
+      else {
+        checkboxSubmitbutton.addClass('disabled')
+
+      }
+    }
   })
 
 </script>

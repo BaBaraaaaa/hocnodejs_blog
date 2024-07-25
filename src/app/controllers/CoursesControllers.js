@@ -92,6 +92,29 @@ class CoursesControllers {
         }
         
     }
+    //[DELETE]/courses/delete-restore-bulk
+    async restoreBulk(req, res, next) {
+        switch(req.body.action) {
+            case 'restore':
+             await   Course.restore({_id: {$in: req.body.courseIds}})
+                .then(()=> {
+                    res.redirect('back');
+                })
+                .catch(next);
+                 break;
+            case 'delete':
+                await   Course.deleteMany({_id: {$in: req.body.courseIds}})
+                   .then(()=> {
+                        res.redirect('back');
+                    })
+                   .catch(next);
+                    break;
+            default:
+                res.json({success: false, message: 'Invalid action'});
+                break;
+            }
+    }
+
     //[GET] /search
     search(req, res) {
         res.render('search');
