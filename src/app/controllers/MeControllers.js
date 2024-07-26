@@ -5,7 +5,17 @@ const Course = require('../models/Course.js');
 class CoursesControllers {
     //[GET]/me/stored/courses
    async show(req, res,next) {
-    Promise.all([Course.countDocumentsWithDeleted({ deleted: true }),Course.find()])
+    let coursesQuery = Course.find({});
+        if(req.query.hasOwnProperty('_sort'))
+    {
+        coursesQuery = coursesQuery.sort({
+          [req.query.column]: req.query.type 
+        });
+        // res.json({success: false, message: 'Invalid sort query'});
+    }
+    // res.json(res.locals._sort);
+
+    Promise.all([Course.countDocumentsWithDeleted({ deleted: true }),coursesQuery])
     .then(([count, courses]) => {
         console.log('Total courses deleted count: ', count);
         res.render('me/stored-courses',{coursesCount: count, courses: mutipleMongooseToObject(courses)});

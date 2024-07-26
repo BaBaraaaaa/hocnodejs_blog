@@ -23,11 +23,15 @@
 
         <th scope="col">#</th>
         <th scope="col">STT</th>
-        <th scope="col">Tên khóa học <i class="bi bi-arrows-vertical"></i>
-            <i class="bi bi-arrow-up-short"></i>
+        <th scope="col">Tên khóa học
+          {{{sortable 'name' _sort }}}
         </th>
-        <th scope="col">Mô tả</th>
-        <th scope="col">Thao tác</th>
+        <th scope="col">Mô tả
+          {{{sortable 'description' _sort }}}
+
+        </th>
+        <th scope="col">Thao tác
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -41,9 +45,7 @@
         <th scope="row">{{ inc @index }}</th>
         <td>{{this.name}}</td>
         <td>{{this.description}}</td>
-        <td>{{this.name}}</td>
-
-        <td>
+        <td >
           <a data-bs-toggle="modal" data-bs-target="#delete-course-modal" data-id="{{this._id}}" href="">Xóa</a>
           <a href="/courses/{{this._id}}/edit">Sửa</a>
         </td>
