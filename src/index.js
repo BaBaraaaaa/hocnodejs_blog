@@ -29,27 +29,7 @@ app.engine(
     'hbs',
     engine({
         extname: '.hbs',
-        helpers: {
-            // register new function helpers
-            inc(i) { return i + 1 },
-            sortable: (field, sort) => {
-                const currentSort = field === sort.column ?sort.type : 'default';
-                const icons = {
-                    default: 'bi bi-sort-alpha-down',
-                    asc: 'bi bi-sort-alpha-down',
-                    desc: 'bi bi-sort-alpha-up-alt'
-                }
-                const types = {
-                    default: 'desc',
-                    asc: 'desc',
-                    desc: 'asc'
-                }
-                const icon = icons[currentSort]
-                const type = types[currentSort];
-                return `<a href="?_sort&column=${field}&type=${type}">
-                        <i class="${icon}"></i></a>`;
-            }
-        }
+        helpers: require('./helper/handleBars.js')
     }),
 
 );
