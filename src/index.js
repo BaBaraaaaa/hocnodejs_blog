@@ -4,7 +4,7 @@ const { engine } = require('express-handlebars');
 //middlewares sử dụng để đọc các http request PUT và DELETE
 const methodOverride = require('method-override');
 const path = require('path');
-const sortMiddleware = require('./app/middlewares/SortMiddleware');
+const sortMiddleware = require('./app/middlewares/sortMiddleware');
 const app = express();
 const port = 3000;
 
