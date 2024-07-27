@@ -45,7 +45,7 @@
         <th scope="row">{{ inc @index }}</th>
         <td>{{this.name}}</td>
         <td>{{this.description}}</td>
-        <td >
+        <td>
           <a data-bs-toggle="modal" data-bs-target="#delete-course-modal" data-id="{{this._id}}" href="">Xóa</a>
           <a href="/courses/{{this._id}}/edit">Sửa</a>
         </td>
@@ -57,9 +57,41 @@
       </tr>
       {{/each}}
 
+
+
     </tbody>
   </table>
+
 </form>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link {{#if pageResult.hasPrevPage}}enabled{{else}}disabled{{/if}}" id="prevPage"
+        href="?prevPage={{pageResult.prevPage}}&limit={{pageResult.limit}}">Previous</a>
+    </li>
+    <li class="page-item "><a class="page-link" id="currentPage"
+        href="?page={{pageResult.page}}&limit={{pageResult.limit}}">{{pageResult.page}}</a></li>
+    {{#if pageResult.hasNextPage}}
+    <li class="page-item "><a class="page-link " id="secondPage"
+        href="?page={{pageResult.nextPage}}&limit={{pageResult.limit}}">{{pageResult.nextPage}}</a></li>
+    <li class="page-item">
+      <a class="page-link {{#if pageResult.hasNextPage}}enabled{{else}}disabled{{/if}}" id="nextPage"
+        href="?nextPage={{pageResult.nextPage}}&limit={{pageResult.limit}}">Next</a>
+    </li>
+    {{/if}}
+  </ul>
+  <h6>Tổng số bản ghi {{pageResult.limit }}</h6>
+</nav>
+<h5>Chọn hiển thị số lượng bản ghi </h5>
+<select id="limitSelect" class="form-select">
+  <option>Choose...
+  </option>
+  <option value="2">2</option>
+  <option value="5">5</option>
+  <option value="10">10</option>
+
+</select>
+
 {{!-- confirm delete --}}
 <!-- Modal One  -->
 <div class="modal fade" id="delete-course-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -164,6 +196,29 @@
 
       }
     }
+    //pagination
+    var limitSelect = document.getElementById('limitSelect');
+    console.log(limitSelect);
+    limitSelect.addEventListener('change', function () {
+      // change limit and reload page
+      var limit = limitSelect.value;
+      let currentURL = window.location.href;
+      if (currentURL.includes('?')) {
+        if (currentURL.includes('limit=')) {
+          // Nếu đã có 'limit=' trong URL, thay thế nó
+          currentURL = currentURL.replace(/(limit=)[^\&]+/, '$1' + limit);
+        } else {
+          // Nếu chưa có 'limit=' trong URL, thêm mới
+          currentURL += '&limit=' + limit;
+        }
+      }
+      else {
+        // URL chưa có dấu '?', thêm mới
+        currentURL += '?limit=' + limit;
+      }
+      window.location.href = currentURL;
+    });
+
   })
 
 

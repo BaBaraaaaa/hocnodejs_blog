@@ -1,9 +1,8 @@
 const handlerbars = require('handlebars');
-
 module.exports = {
     // register new function helpers
     inc: (i) => { return i + 1 },
-
+    //register sort function helper
     sortable: (field, sort) => {
         const currentSort = field === sort.column ? sort.type : 'default';
         const icons = {
@@ -22,6 +21,12 @@ module.exports = {
         const href = handlerbars.escapeExpression(`?_sort&column=${field}&type=${type}`);
         const output = `<a href="${href}"> <i class="${icon}"></i></a>`;
         
+        return new handlerbars.SafeString(output);
+    },
+    //register pagination function helper
+    paginate: (page, totalPages, prevPage, nextPage) => {
+        
+
         return new handlerbars.SafeString(output);
     }
 

@@ -1,7 +1,23 @@
 const mongoose = require('mongoose');
 const slug = require('mongoose-slug-updater');
 const mongoose_delete = require('mongoose-delete');
-
+const mongoose_paginate = require('mongoose-paginate-v2');
+const customLabelsModel = {
+    totalDocs: 'itemCount',
+    docs: 'itemsList',
+    limit: 'perPage',
+    page: 'currentPage',
+    nextPage: 'next',
+    prevPage: 'prev',
+    totalPages: 'pageCount',
+    pagingCounter: 'slNo',
+    meta: 'paginator',
+}
+const options = {
+    page: 1,
+    limit: 10,
+    customLabels: customLabelsModel,
+  };
 mongoose.plugin(slug);
 const Schema = mongoose.Schema;
 const Course = new Schema({
@@ -27,5 +43,6 @@ Course.query.sortable = (function (req) {
 Course.plugin(mongoose_delete,
     { overrideMethods: 'all' },
 );
+Course.plugin(mongoose_paginate,options);
 
 module.exports = mongoose.model('Course', Course);
