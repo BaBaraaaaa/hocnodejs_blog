@@ -7,10 +7,12 @@ const path = require('path');
 const sortMiddleware = require('./app/middlewares/SortMiddleware');
 const app = express();
 const port = 3000;
-
+const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser'); //Thiết lập gói cookie-parser
 const route = require('./routes/index.js');
 
-
+//use cookie-parser
+app.use(cookieParser());
 //connect db
 const db = require('./config/db/index.js');
 //connect to Db
@@ -33,7 +35,8 @@ app.engine(
     }),
 
 );
-
+//set up Global configuration access
+dotenv.config();
 
 
 
@@ -43,7 +46,13 @@ app.set('views',
         'resources/views'));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-
+app.use(function(req, res, next) {
+    res.header(
+      "Access-Control-Allow-Headers",
+      "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
+  });
 
 //Route init
 route(app);

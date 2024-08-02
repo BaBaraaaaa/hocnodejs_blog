@@ -63,7 +63,7 @@
   </table>
 
 </form>
-<nav aria-label="Page navigation example">
+<div class="mt-4 d-flex flex-row bd-highlight mb-3" aria-label="Page navigation example">
   <ul class="pagination">
     <li class="page-item">
       <a class="page-link {{#if pageResult.hasPrevPage}}enabled{{else}}disabled{{/if}}" id="prevPage"
@@ -81,16 +81,19 @@
     {{/if}}
   </ul>
   <h6>Tổng số bản ghi {{pageResult.limit }}</h6>
-</nav>
-<h5>Chọn hiển thị số lượng bản ghi </h5>
-<select id="limitSelect" class="form-select">
-  <option>Choose...
-  </option>
-  <option value="2">2</option>
-  <option value="5">5</option>
-  <option value="10">10</option>
 
-</select>
+  <div>
+    <p class="fs-6 text"> Chọn hiển thị số lượng bản ghi</h5>
+      <select id="limitSelect" class="form-select  fs-6 text">
+        <option>Choose...</option>
+        <option value="2">2</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+      </select>
+  </div>
+
+</div>
+
 
 {{!-- confirm delete --}}
 <!-- Modal One  -->

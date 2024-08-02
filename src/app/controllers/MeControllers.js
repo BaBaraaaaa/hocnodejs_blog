@@ -25,7 +25,7 @@ class CoursesControllers {
         }
         const options = {
             totalPages: req.query.totalDocs  || 1,
-            page:  pageNumber() ?? 1,
+            page:  pageNumber() || 1,
             limit: limit ?? 2, 
             nextPage: req.query.nextPage ?? null,
             prevPage: req.query.prevPage ?? null,
@@ -35,7 +35,7 @@ class CoursesControllers {
 
         };
         const paginate = Course.paginate({}, options)
-            .then(pageResult => { return pageResult; })
+            .then(pageResult => { return pageResult;})
             .catch(next);
         Promise.all([coursesQuery.sortable(req), paginate, showCourse])
             .then(([courses, pageResult, showCourse]) => {
